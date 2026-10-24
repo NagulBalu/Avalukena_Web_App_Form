@@ -1,0 +1,454 @@
+/* ===========================================================
+   Avalukena – styles (single-screen layout)
+   The whole page (logo, form/offer card, address, buttons,
+   counter) fits in ONE screen on phone, tablet and laptop.
+   Colours come from the logo: maroon, cream, gold.
+   =========================================================== */
+
+/* ---------- Design tokens ---------- */
+:root {
+  --maroon: #4a0f14;
+  --maroon-2: #6b1a22;
+  --cream: #fbe9d6;
+  --cream-2: #f6dcc0;
+  --paper: #fff6ea;
+  --gold: #a9801f;
+  --gold-2: #c9a24a;
+  --gold-3: #e3c273;
+  --text: #3a0d11;
+  --muted: #6b4a4c;
+  --error: #b3261e;
+
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-accent: "Cormorant Garamond", Georgia, serif;
+  --font-script: "Great Vibes", cursive;
+  --font-body: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 10px;
+  --shadow-card: 0 12px 30px rgba(74, 15, 20, .14);
+
+  /* sizes that shrink on short screens */
+  --space: clamp(6px, 1.4vh, 16px);
+  --input-h: clamp(38px, 5vh, 44px);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; height: 100%; }
+
+[hidden], .hidden { display: none !important; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  line-height: 1.4;
+  background: linear-gradient(160deg, var(--cream) 0%, var(--cream-2) 100%) fixed;
+  height: 100vh;
+  height: 100dvh;                 /* exactly one screen */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.bg-glow {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(201, 162, 74, .25), transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(74, 15, 20, .12), transparent 45%);
+}
+
+/* ---------- Page grid: header on top, form/result below ---------- */
+.page {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  overflow-y: auto;               /* safety net only for very small screens */
+  padding: var(--space) clamp(12px, 4vw, 28px);
+  display: grid;
+  gap: var(--space);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(min-content, 1fr);
+  grid-template-areas:
+    "brand"
+    "main";
+}
+.brand    { grid-area: brand; }
+.main-col {
+  grid-area: main; min-width: 0; min-height: 0;
+  display: flex; flex-direction: column; justify-content: center;
+}
+
+/* ---------- Brand header (compact row on phones) ---------- */
+.brand {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  text-align: center;
+  row-gap: 2px;
+}
+.logo-round { margin-bottom: 4px; }
+
+.logo-round {
+  width: clamp(56px, 9vh, 84px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  background: var(--cream);
+  border: 2.5px solid var(--gold-2);
+  box-shadow: 0 6px 16px rgba(74, 15, 20, .25), 0 0 0 4px rgba(201, 162, 74, .18);
+}
+.logo-round img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.logo-fallback {
+  display: none;
+  position: absolute; inset: 0;
+  align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 36px; color: var(--maroon);
+}
+.logo-round.no-img .logo-fallback { display: flex; }
+.logo-round.no-img img { display: none; }
+
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 6.4vw, 2rem);
+  letter-spacing: .02em;
+  line-height: 1.1;
+  color: var(--maroon);
+}
+.brand-tag {
+  font-family: var(--font-accent);
+  font-weight: 600;
+  font-size: clamp(.78rem, 3.2vw, .95rem);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+}
+.brand-tag .leaf { letter-spacing: 0; margin: 0 2px; }
+.brand-tag .flip { display: inline-block; transform: scaleX(-1); }
+
+.brand-offer { display: none; }
+
+/* ---------- Cards ---------- */
+.main-col > .card { width: 100%; max-width: 320px; margin-inline: auto; }
+
+.card {
+  background: var(--paper);
+  border: 1.5px solid var(--gold-2);
+  border-radius: var(--radius-lg);
+  padding: clamp(12px, 2.4vh, 28px) clamp(14px, 4vw, 28px);
+  box-shadow: var(--shadow-card);
+  animation: rise .5s ease both;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.divider, .card-sub { display: none; }       /* extra decoration only on big screens */
+
+.card-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-align: center;
+  font-size: clamp(1.25rem, 4.6vw, 1.7rem);
+  line-height: 1.25;
+  color: var(--maroon);
+}
+.card-title em {
+  font-family: var(--font-script);
+  font-style: normal; font-weight: 400;
+  font-size: 1.4em; color: var(--gold);
+}
+
+.chip {
+  display: table; margin: 6px auto clamp(6px, 1.6vh, 14px);
+  padding: 4px 14px; border-radius: 999px;
+  background: rgba(201, 162, 74, .2); border: 1px solid var(--gold-2);
+  color: var(--maroon); font-size: .76rem; font-weight: 600; text-align: center;
+}
+
+/* ---------- Form (CSS grid) ---------- */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  column-gap: 14px;
+  align-items: start;
+}
+.field--full { grid-column: 1 / -1; }
+.field { margin-bottom: clamp(0px, .5vh, 6px); min-width: 0; }
+
+label {
+  display: block; margin-bottom: 4px;
+  font-size: .8rem; font-weight: 600; letter-spacing: .03em;
+  color: var(--maroon);
+}
+label .note { font-weight: 400; color: var(--muted); font-size: .72rem; }
+
+input {
+  width: 100%; min-height: var(--input-h); padding: 7px 12px;
+  font: inherit; font-size: max(16px, 1rem);   /* 16px+ stops iOS zoom on focus */
+  color: var(--text);
+  background: #fffaf3;
+  border: 1.5px solid #e2cba0; border-radius: var(--radius-sm);
+  outline: none; transition: border-color .2s, box-shadow .2s, background .2s;
+}
+input::placeholder { color: #a58f86; }
+input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(201, 162, 74, .22); }
+input[aria-invalid="true"], input.invalid { border-color: var(--error); background: #fff4f2; }
+
+#name { text-transform: uppercase; letter-spacing: .06em; }
+#name::placeholder { letter-spacing: .04em; }
+
+.phone-wrap { display: flex; align-items: stretch; }
+.phone-wrap .prefix {
+  display: flex; align-items: center; padding: 0 14px;
+  background: var(--maroon); color: var(--cream); font-weight: 500; font-size: .95rem;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+}
+.phone-wrap input { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; border-left: none; letter-spacing: .08em; }
+
+.error { display: block; min-height: 14px; margin-top: 2px; font-size: .72rem; line-height: 1.3; color: var(--error); }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; min-height: clamp(40px, 5.4vh, 46px); padding: 8px 14px;
+  font: inherit; font-weight: 600; font-size: .95rem; letter-spacing: .02em;
+  text-align: center; text-decoration: none; line-height: 1.2;
+  border-radius: var(--radius-md); border: 1.5px solid transparent; cursor: pointer;
+  transition: transform .15s, box-shadow .2s, background .2s, opacity .2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active { transform: scale(.98); }
+.btn:focus-visible { outline: 3px solid var(--gold-2); outline-offset: 2px; }
+.btn:disabled { opacity: .65; cursor: progress; }
+
+.btn.primary {
+  color: var(--cream);
+  background: linear-gradient(135deg, var(--maroon), var(--maroon-2));
+  box-shadow: 0 6px 14px rgba(74, 15, 20, .35);
+}
+.btn.primary:hover:not(:disabled) { box-shadow: 0 8px 18px rgba(74, 15, 20, .45); }
+
+.btn.ghost { background: transparent; color: var(--maroon); border-color: var(--gold-2); }
+.btn.ghost:hover { background: rgba(201, 162, 74, .15); }
+
+.btn.gold {
+  color: var(--maroon);
+  background: linear-gradient(135deg, var(--gold-2), var(--gold-3));
+  box-shadow: 0 6px 14px rgba(169, 128, 31, .35);
+}
+.btn.gold:hover { filter: brightness(1.05); }
+
+.btn.outline { background: transparent; color: var(--cream); border-color: var(--gold-2); }
+.btn.outline:hover { background: rgba(201, 162, 74, .18); }
+
+/* ---------- Result: card image scales to fit the screen ---------- */
+.card.result {
+  flex: 1 1 auto; min-height: 0;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.valid-banner {
+  text-align: center; font-size: .78rem; line-height: 1.4;
+  padding: 6px 10px; border-radius: 10px;
+  background: var(--maroon); color: var(--cream);
+  border: 1px solid var(--gold-2);
+}
+.valid-banner strong { color: var(--gold-3); font-weight: 600; white-space: nowrap; }
+
+#offerCanvas {
+  flex: 1 1 0; min-height: 200px;
+  width: 100%; height: 100%;
+  object-fit: contain;            /* whole card always visible, no cropping */
+  filter: drop-shadow(0 6px 12px rgba(74, 15, 20, .25));
+}
+.actions {
+  display: grid; gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  grid-auto-flow: column;
+}
+.actions .btn { font-size: .85rem; padding: 8px 6px; }
+.hint { display: block; text-align: center; color: var(--muted); font-size: .72rem; }
+.hint:empty { display: none; }
+
+/* ---------- Footer: address + Map/Call + counter (always in view) ---------- */
+.footer {
+  flex: 0 0 auto;
+  width: 100%;
+  padding: 10px clamp(12px, 4vw, 28px) calc(8px + env(safe-area-inset-bottom));
+  text-align: center;
+  background: var(--maroon); color: var(--cream);
+  border-top: 3px solid var(--gold-2);
+  border-radius: 20px 20px 0 0;
+}
+.footer-grid {
+  max-width: 1000px; margin: 0 auto;
+  display: grid; gap: 8px;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+
+.addr {
+  font-style: normal;
+  font-family: var(--font-accent); font-weight: 600;
+  font-size: 1.05rem; line-height: 1.3; color: var(--cream);
+}
+.addr br { display: none; }                  /* address flows in one paragraph */
+.contact-text { margin-top: 2px; font-size: .8rem; letter-spacing: .03em; color: var(--gold-3); font-weight: 500; }
+
+.btn-row {
+  display: grid; gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%; max-width: 340px; margin: 0 auto;
+}
+
+.counter-wrap { display: flex; justify-content: center; }
+.counter {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 14px; border-radius: 999px;
+  background: rgba(251, 233, 214, .08); border: 1px solid rgba(201, 162, 74, .6);
+}
+.counter-icon { font-size: 1.05rem; }
+.counter-text { display: flex; align-items: baseline; gap: 6px; }
+.counter-num { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--gold-3); line-height: 1; }
+.counter-label { font-size: .72rem; opacity: .9; }
+
+.foot-line {
+  margin-top: 6px;
+  font-family: var(--font-accent); font-weight: 600; font-size: .95rem; letter-spacing: .05em;
+  color: var(--cream);
+}
+
+/* ---------- Tall phones / tablets: a bit more breathing room ---------- */
+@media (min-height: 760px) {
+  .logo-round { width: clamp(64px, 9vh, 84px); }
+  .footer { padding-top: 14px; }
+  .footer-grid { gap: 10px; }
+}
+
+/* ---------- Short screens: squeeze further so it still fits ---------- */
+@media (max-height: 750px) {
+  .chip { display: none; }
+  .brand-tag { font-size: .72rem; }
+  .contact-text { font-size: .74rem; }
+  .addr { font-size: .95rem; }
+  .foot-line { display: none; }
+}
+
+/* ---------- Tablet portrait ---------- */
+@media (min-width: 600px) {
+  .page { max-width: 600px; }
+  .brand-name { font-size: 2.4rem; }
+  .brand-tag { font-size: 1rem; letter-spacing: .26em; }
+}
+
+/* ---------- Laptop / desktop: two columns, footer in one row ---------- */
+@media (min-width: 960px) {
+  .page {
+    max-width: 1120px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    grid-template-rows: minmax(min-content, 1fr);
+    grid-template-areas: "brand main";
+    column-gap: 48px;
+    align-items: stretch;
+  }
+  .brand { align-self: center; }
+
+  /* brand becomes a centred stack */
+  .brand { display: block; text-align: center; }
+  .logo-round { width: clamp(110px, 28vh, 220px); margin: 0 auto clamp(6px, 1.6vh, 14px); border-width: 3px;
+    box-shadow: 0 8px 24px rgba(74, 15, 20, .28), 0 0 0 6px rgba(201, 162, 74, .18); }
+  .brand-name { font-size: clamp(2.2rem, 4.4vw, 3.4rem); }
+  .brand-tag  { font-size: clamp(.95rem, 1.4vw, 1.2rem); letter-spacing: .3em; margin-top: 4px; }
+
+  .brand-offer {
+    display: grid; justify-items: center; gap: 2px;
+    margin: clamp(10px, 3vh, 26px) auto 0; padding: 12px 28px; max-width: 320px;
+    border: 1.5px solid var(--gold-2); border-radius: var(--radius-lg);
+    background: rgba(255, 246, 234, .55);
+  }
+  .bo-small { font-family: var(--font-accent); font-weight: 600; font-size: 1rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+  .bo-big { font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 4vh, 2.8rem); line-height: 1.15; color: var(--maroon); }
+
+  .divider, .card-sub { display: block; }
+  .divider { text-align: center; color: var(--gold); margin-bottom: 4px; position: relative; }
+  .divider::before, .divider::after {
+    content: ""; position: absolute; top: 50%; width: 36%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-2));
+  }
+  .divider::before { left: 0; }
+  .divider::after  { right: 0; transform: scaleX(-1); }
+  .card-sub {
+    text-align: center; font-family: var(--font-accent); font-style: italic; font-weight: 600;
+    font-size: 1.1rem; color: var(--muted); margin: 0 0 clamp(6px, 1.6vh, 16px);
+  }
+
+  .footer-grid {
+    grid-template-columns: 1.4fr auto 1fr;
+    column-gap: 32px;
+    text-align: left;
+  }
+  .shop-info { text-align: left; }
+  .btn-row { width: 280px; max-width: none; }
+  .counter-wrap { justify-content: flex-end; }
+  .foot-line { display: block; }
+}
+
+/* short laptop screens */
+@media (min-width: 960px) and (max-height: 680px) {
+  .brand-offer, .card-sub, .divider { display: none; }
+  .foot-line { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* wider card on laptop screens */
+@media (min-width: 960px) {
+  .main-col > .card { max-width: 380px; }
+}
+
+/* very short phones (e.g. 360 x 640) */
+@media (max-width: 959px) and (max-height: 700px) {
+  .logo-round { width: 46px; border-width: 2px; margin-bottom: 0; box-shadow: 0 4px 10px rgba(74,15,20,.25); }
+  .brand-name { font-size: 1.35rem; }
+  .brand-tag { display: none; }
+  .card { padding: 10px 14px; }
+  .valid-banner { font-size: .7rem; padding: 4px 8px; }
+  #offerCanvas { min-height: 150px; }
+  .btn { min-height: 38px; }
+}
+
+/* "follow our Instagram" notice */
+.follow-note {
+  display: block; text-align: center; text-decoration: none;
+  margin: 0 auto clamp(6px, 1.4vh, 12px);
+  padding: 6px 12px; border-radius: 10px;
+  background: var(--maroon); color: var(--cream);
+  border: 1px solid var(--gold-2);
+  font-size: .78rem; line-height: 1.35;
+}
+.follow-note strong { color: var(--gold-3); font-weight: 600; }
+.follow-note:hover { filter: brightness(1.15); }
+
+/* make room for the Instagram notice on phones */
+@media (max-width: 959px) {
+  .chip { margin: 4px auto 6px; padding: 3px 12px; font-size: .72rem; }
+  .follow-note { margin-bottom: 6px; padding: 4px 10px; font-size: .74rem; }
+  .card { padding-top: 10px; padding-bottom: 10px; }
+  .error { min-height: 12px; }
+  .field { margin-bottom: 0; }
+  .logo-round { width: clamp(50px, 8vh, 72px); }
+}

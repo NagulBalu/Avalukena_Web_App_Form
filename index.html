@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Avalukena – Get Your 20% Offer</title>
+  <meta name="description" content="Fill the form and get your 20% offer card from Avalukena, Manaparai." />
+  <meta name="theme-color" content="#4a0f14" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Great+Vibes&family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <main class="page">
+
+    <!-- Brand header -->
+    <header class="brand">
+      <div class="logo-round" id="logoRound">
+        <img src="logo.png" alt="Avalukena logo" id="logoImg" />
+        <span class="logo-fallback" id="logoFallback">A</span>
+      </div>
+      <h1 class="brand-name">Avalukena</h1>
+      <p class="brand-tag"><span class="leaf">❦</span> Woven for her soul <span class="leaf flip">❦</span></p>
+
+      <!-- shown on large laptop screens only -->
+      <div class="brand-offer" aria-hidden="true">
+        <span class="bo-small">Exclusive Offer</span>
+        <span class="bo-big">20% OFF</span>
+        <span class="bo-small">01 – 08 November 2026</span>
+      </div>
+    </header>
+
+    <!-- FORM / RESULT (same spot, one screen) -->
+    <div class="main-col">
+
+      <!-- FORM -->
+      <section class="card" id="formSection">
+        <div class="divider"><span>✿</span></div>
+        <h2 class="card-title">Claim Your <em>20% Offer</em></h2>
+        <p class="chip"> Offer valid: 01 – 08 November 2026</p>
+        <a class="follow-note" id="followNote" target="_blank" rel="noopener"
+           href="https://www.instagram.com/_avalukena____?mdxt=ZDRxdDUyZW9wMm1u">
+          To get this offer, <strong>follow our Instagram page</strong>
+        </a>
+        <p class="card-sub">Fill in your details and get your special offer card instantly.</p>
+
+        <form id="offerForm" class="form-grid" novalidate autocomplete="off">
+          <div class="field field--full">
+            <label for="name">Your Name <span class="note"></span></label>
+            <input type="text" id="name" name="name" placeholder="ENTER YOUR NAME"
+                   maxlength="40" autocapitalize="characters" autocorrect="off" spellcheck="false"
+                   aria-describedby="nameErr" required />
+            <small class="error" id="nameErr" role="alert"></small>
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone Number <span class="note"></span></label>
+            <div class="phone-wrap">
+              <span class="prefix">+91</span>
+              <input type="tel" id="phone" name="phone" placeholder="10-digit number"
+                     inputmode="numeric" autocomplete="off" aria-describedby="phoneErr" required />
+            </div>
+            <small class="error" id="phoneErr" role="alert"></small>
+          </div>
+
+          <div class="field">
+            <label for="work">Working Place</label>
+            <input type="text" id="work" name="work" placeholder="College / School / Company"
+                   maxlength="60" aria-describedby="workErr" required />
+            <small class="error" id="workErr" role="alert"></small>
+          </div>
+
+          <button type="submit" class="btn primary field--full" id="submitBtn">Get My 20% Offer</button>
+        </form>
+      </section>
+
+      <!-- RESULT -->
+      <section class="card result hidden" id="resultSection" aria-live="polite">
+        <h2 class="card-title">Congratulations! </h2>
+
+        <p class="valid-banner">
+          Offer available only <strong>01 – 08 November 2026</strong>
+        </p>
+
+        <canvas id="offerCanvas" width="900" height="1440" aria-label="Your 20 percent offer card"></canvas>
+
+        <div class="actions">
+          <button class="btn primary" id="downloadBtn" type="button">Download</button>
+          <button class="btn gold" id="shareBtn" type="button" hidden>Share</button>
+          <button class="btn ghost" id="againBtn" type="button">Another</button>
+        </div>
+        <small class="hint" id="dlHint"></small>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- BOTTOM: address, Map + Call buttons, scan counter (always visible) -->
+  <footer class="footer">
+    <div class="footer-grid">
+
+      <section class="shop-info" aria-labelledby="shopTitle">
+        <h2 class="sr-only" id="shopTitle">Visit our shop</h2>
+        <address class="addr">
+          Avalukena,<br />
+          Manaparaipatty Road,<br />
+          Near Uthayam Theatre,<br />
+          Manaparai - 621306.
+        </address>
+        <p class="contact-text">Contact: 8344160691 &nbsp;|&nbsp; 9344960691</p>
+      </section>
+
+      <div class="btn-row">
+        <a class="btn gold" target="_blank" rel="noopener"
+           href="https://www.google.com/maps/place/10%C2%B035'56.7%22N+78%C2%B025'18.0%22E/@10.5990715,78.4190956,17z/data=!3m1!4b1!4m4!3m3!8m2!3d10.5990715!4d78.4216705?hl=en&amp;entry=ttu&amp;g_ep=EgoyMDI2MTAxOS4wIKXMDSoASAFQAw%3D%3D"> Map</a>
+        <a class="btn outline" href="tel:+918344160691">Call</a>
+      </div>
+
+      <div class="counter-wrap">
+        <div class="counter">
+          <span class="counter-icon">👥</span>
+          <div class="counter-text">
+            <span class="counter-num" id="scanCount">0</span>
+            <span class="counter-label">people scanned this QR code</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="foot-line">Stay Beautiful • Stay Stylish • Stay You </p>
+  </footer>
+
+  <noscript><p style="text-align:center;padding:16px">Please enable JavaScript to use this page.</p></noscript>
+  <script src="logo-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
